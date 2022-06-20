@@ -1,15 +1,20 @@
+import * as date from '../Date/date.js';
+
 class Task {
     title;
     description;
     dueDate;
     priority;
-    isPastDue;
+    pastDue;
+    daysLeft;
 
     constructor(title, description, dueDate, priority) {
         this.title = title;
         this.description = description;
-        this.dueDate = new Date() dueDate;
+        this.dueDate = date.newDate(dueDate);
         this.priority = priority;
+        this.isPastDue();
+        this.setDaysLeft();
     }
 
     get title() {
@@ -28,23 +33,42 @@ class Task {
         return this.priority;
     }
 
-    set title(title){
+    get pastDue() {
+        return this.pastDue;
+    }
+
+    get daysLeft() {
+        return this.daysLeft;
+    }
+
+    set title(title) {
         this.title = title;
     }
 
-    set description(description){
-        this.description = this.description;
+    set description(description) {
+        this.description = description;
     }
 
-    set dueDate(dueDate){
-        this.dueDate = dueDate;
+    set dueDate(dueDate) {
+        this.dueDate = date.newDate(dueDate);
+        this.isPastDue();
+        this.setDaysLeft();
     }
 
-    set priority(priority){
+    set priority(priority) {
         this.priority = priority;
     }
 
-    pastDue(){
+    isPastDue() {
+        const diff = date.diffDate(this.dueDate);
+        if (diff < 0) {
+            this.pastDue = true;
+        } else {
+            this.pastDue = false;
+        }
+    }
 
+    setDaysLeft() {
+        this.daysLeft = date.diffDate(this.dueDate);
     }
 }

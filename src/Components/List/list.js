@@ -32,5 +32,9 @@ class List {
 
     totalTasksDue() {
         //logic for returning only the late tasks
+        const pastDue = this.taskContainer.filter((value) => {
+            return value.isPastDue();
+        });
+        return pastDue.length;
     }
 }
