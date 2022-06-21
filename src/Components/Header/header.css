@@ -1,0 +1,29 @@
+header {
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border: solid black 0px;
+    border-bottom-width: 1px;
+    width: 700px;
+}
+
+.header-button {
+    background-color: #E7E5E4;
+    font-weight: 900;
+    font-size: 1.4rem;
+    border-radius: 5px;
+    border: solid black 1px;
+}
+
+.header-button:hover {
+    cursor: pointer;
+}
+
+.header-button:active {
+    box-shadow: inset -1px 3px 8px 5px #D6D3D1;
+}

@@ -1,23 +1,18 @@
 import './main.css';
+import createDOMList from '../List/listDOM.js';
 
-export default createMain();
+export default createMain;
 
 function createMain() {
     const main = document.createElement("main");
-    main.appendChild(createListbtn());
+    main.appendChild(createDOMList());
+    
+    createNewList(document.getElementById("newListButton"), main);
     return main;
 }
 
-function createListBtn() {
-    const newListBtn = document.createElement("button");
-    newListBtn.textContent = "Create new list";
-
-    return newListBtn;
-}
-
-
-
-
-function populateMain(array){
-
+function createNewList(element, parent) {
+    element.addEventListener("click", () => {
+        parent.appendChild(createDOMList());
+    });
 }

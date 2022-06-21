@@ -1,0 +1,53 @@
+.list-body{
+    width: 300px;
+    height: 400px;
+    background-color: #FEF9C3; /*tailwind color yellow*/
+    padding: 0px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-title{
+    width: 280px;
+    margin-top: 10px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    border: solid black 0px;
+    border-bottom-width: 1px;
+    background-color: #FEF9C3;
+}
+
+.list-tasks{
+    flex: 1 1 auto;
+    margin-top: 10px;
+}
+
+.list-addButton{
+    width: 50px;
+    height: 50px;
+    background-color: rgba(231, 229, 228, 0.6);
+    font-weight: 900;
+    font-size: 1.6rem;
+    border-radius: 50%;
+    border: solid rgba(255, 255, 255, 1) 1px;
+}
+
+.list-addButton:hover{
+    cursor: pointer;
+}
+
+.list-addButton:active {
+    box-shadow: inset -1px 3px 8px 5px #D6D3D1;
+}
+
+.list-footer{
+    align-self: stretch;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-dataDue{
+    color: red;
+}
