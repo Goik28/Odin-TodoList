@@ -1,7 +1,7 @@
 .list-body {
     width: 300px;
     height: 400px;
-    background-color: #FEF9C3;
+    background-color: #E7E5E4;
     /*tailwind color yellow*/
     padding: 0px 10px 10px 10px;
     display: flex;
@@ -11,19 +11,33 @@
     box-shadow: 8px 8px 5px -1px rgba(0, 0, 0, 0.2);
 }
 
-.list-title {
-    width: 280px;
+.list-header {
     margin-top: 10px;
-    font-size: 1.4rem;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
     border: solid black 0px;
     border-bottom-width: 1px;
-    background-color: #FEF9C3;
+}
+
+.list-title {
+    width: 80%;
+    flex: 1 1 auto;
+    font-size: 1.4rem;
+    font-weight: 700;
+    border: solid rgba(255, 255, 255, 1) 0px;
+    background-color: #E7E5E4;
 }
 
 .list-tasks {
     flex: 1 1 auto;
     margin-top: 10px;
+}
+
+.list-delButton {
+    background-color: rgba(231, 229, 228, 0.6);
+    font-weight: 700;
+    font-size: 1.4rem;
+    border: solid rgba(255, 255, 255, 1) 0px;
 }
 
 .list-addButton {
@@ -36,11 +50,13 @@
     border: solid rgba(255, 255, 255, 1) 1px;
 }
 
-.list-addButton:hover {
+.list-addButton:hover,
+.list-delButton:hover {
     cursor: pointer;
 }
 
-.list-addButton:active {
+.list-addButton:active,
+.list-delButton:active {
     box-shadow: inset -1px 3px 8px 5px #D6D3D1;
 }
 
@@ -48,6 +64,9 @@
     align-self: stretch;
     display: flex;
     justify-content: space-between;
+    border: solid black 0px;
+    border-top-width: 1px;
+    padding-top: 5px;
 }
 
 .list-dataDue {
