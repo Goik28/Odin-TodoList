@@ -28,12 +28,20 @@ function createListHeader() {
     title.value = "New List";
     const delListButton = document.createElement("button");
     delListButton.className = "list-delButton";
+    delListButton.id = "delListButton";
     delListButton.textContent = "X";
+
+    delListButton.addEventListener("click", delList);
 
     listHeader.appendChild(title);
     listHeader.appendChild(delListButton)
 
     return listHeader;
+}
+
+function delList(event) {
+    const listToBeRemoved = event.target.parentNode.parentNode;
+    listToBeRemoved.parentNode.removeChild(listToBeRemoved);
 }
 
 function createListFooter() {
