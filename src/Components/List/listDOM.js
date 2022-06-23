@@ -65,29 +65,47 @@ function createTaskForm() {
     taskForm.className = "task-form";
     const header = document.createElement("div");
     header.className = "form-header";
-    header.textContent = "New Task";
+    header.textContent = "Create new task";
 
     const labelTitle = document.createElement("label");
+    labelTitle.htmlFor = "formTitle";
     labelTitle.textContent = "Task Title:";
     const inputTitle = document.createElement("input");
+    inputTitle.className = "form-input";
+    inputTitle.id = "formTitle";
+    inputTitle.placeholder = "Ex: Buy Grocery";
 
     const labelPriority = document.createElement("label");
-    labelPriority.textContent = "Task Priority:";
+    labelPriority.htmlFor = "formPriority";
+    labelPriority.textContent = "Priority: (Number between 1-10)";
     const inputPriority = document.createElement("input");
+    inputPriority.className = "form-input";
+    inputPriority.id = "formPriority";
+    inputPriority.type = "number";
+    inputPriority.placeholder = "Higher priority will be on top of the list."
+    inputPriority.min = "1";
+    inputPriority.max = "10";
 
     const labelDueDate = document.createElement("label");
-    labelDueDate.textContent = "Task Due Date:";
+    labelDueDate.htmlFor = "formDueDate";
+    labelDueDate.textContent = "Due Date:";    
     const inputDueDate = document.createElement("input");
+    inputDueDate.className = "form-input";
+    inputDueDate.id = "formDueDate";
+    inputDueDate.type = "date";
 
     const labelDescription = document.createElement("label");
+    labelTitle.htmlFor = "formDescription";
     labelDescription.textContent = "Task Description:";
     const inputDescription = document.createElement("textarea");
-
+    inputDescription.id = "formDescription";
+    inputDescription.placeholder = "Ex: Buy 2 tomatoes";
+    
     const footer = document.createElement("div");
     footer.className = "form-footer";
     const createButton = document.createElement("button");
     createButton.className = "task-createButton";
-    createButton.textContent = "Create Task";
+    createButton.textContent = "Create";
     const cancelButton = document.createElement("button");
     cancelButton.className = "task-cancelButton";
     cancelButton.textContent = "Cancel";
@@ -102,6 +120,9 @@ function createTaskForm() {
     taskForm.appendChild(inputDueDate);
     taskForm.appendChild(labelDescription);
     taskForm.appendChild(inputDescription);
+    footer.appendChild(createButton);
+    footer.appendChild(cancelButton);
+    taskForm.appendChild(footer);
 
     return modal;
 }
