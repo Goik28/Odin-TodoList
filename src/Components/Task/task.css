@@ -1,0 +1,27 @@
+.task-body{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba(245, 245, 244, 0.5);
+    row-gap: 5px;
+    margin-bottom: 5px;
+    padding: 5px 0px;
+}
+
+.task-title{
+    width: 200px;
+    height: 20px;
+}
+
+.task-date{
+    width: 100px;
+}
+
+.task-description{
+    width: 200px;
+    overflow: hidden;
+    height: 20px;
+}
+
+.task-daysLeft{
+    width: 100px;
+}

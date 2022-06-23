@@ -1,4 +1,5 @@
 import './list.css';
+import createDOMTask from '../Task/taskDOM';
 export default createDOMList;
 
 function createDOMList() {
@@ -8,13 +9,16 @@ function createDOMList() {
 
     const taskList = document.createElement("div");
     taskList.className = "list-tasks";
+    taskList.id = "taskList";
     const addTaskButton = document.createElement("button");
     addTaskButton.className = "list-addButton";
     addTaskButton.textContent = "+";
+    createTask(addTaskButton);
 
     list.appendChild(createListHeader());
     list.appendChild(taskList);
-    taskList.appendChild(addTaskButton);
+    taskList.appendChild(createDOMTask());
+    taskList.appendChild(addTaskButton);    
     list.appendChild(createListFooter());
 
     return list;
@@ -42,6 +46,12 @@ function createListHeader() {
 function delList(event) {
     const listToBeRemoved = event.target.parentNode.parentNode;
     listToBeRemoved.parentNode.removeChild(listToBeRemoved);
+}
+
+function createTask(button){
+button.addEventListener("click",() =>{
+document.getElementById("taskList").insertBefore(createDOMTask(), button);
+});
 }
 
 function createListFooter() {
