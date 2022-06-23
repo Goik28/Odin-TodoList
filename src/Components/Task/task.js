@@ -1,6 +1,6 @@
 import * as date from '../Date/date.js';
 
-class Task {
+export default class Task {
     title;
     description;
     dueDate;
@@ -8,7 +8,7 @@ class Task {
     pastDue;
     daysLeft;
 
-    constructor(title, description, dueDate, priority) {
+    constructor(title, priority, dueDate, description ) {
         this.title = title;
         this.description = description;
         this.dueDate = date.newDate(dueDate);

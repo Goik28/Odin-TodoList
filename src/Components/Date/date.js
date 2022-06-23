@@ -1,6 +1,5 @@
-import { differenceInCalendarDays } from "date-fns";
-import { formatDistance } from "date-fns";
-export * from date;
+import { differenceInCalendarDays, formatDistance } from "date-fns";
+export {newDate, diffDate};
 
 
 function newDate(string) {
