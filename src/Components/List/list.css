@@ -29,6 +29,13 @@
     background-color: rgba(245, 245, 244, 0.5);
 }
 
+.list-delButton {
+    background-color: rgba(245, 245, 244, 0.5);
+    font-weight: 700;
+    font-size: 1.4rem;
+    border: solid rgba(255, 255, 255, 1) 0px;
+}
+
 .list-tasks {
     flex: 1 1 auto;
     margin-top: 10px;
@@ -37,13 +44,6 @@
     flex-direction: column;
     align-items: center;
     overflow: scroll;
-}
-
-.list-delButton {
-    background-color: rgba(245, 245, 244, 0.5);
-    font-weight: 700;
-    font-size: 1.4rem;
-    border: solid rgba(255, 255, 255, 1) 0px;
 }
 
 .list-addButton {
@@ -79,4 +79,22 @@
 
 .list-dataDue {
     color: red;
+}
+
+.task-modal{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.task-form{
+    background-color: #D6D3D1;
+    margin: 15% auto;
+    padding: 20px;
+    border: solid black 1px;
 }

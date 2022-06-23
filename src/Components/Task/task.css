@@ -8,20 +8,25 @@
 }
 
 .task-title{
-    width: 200px;
+    width: 190px;
     height: 20px;
 }
 
 .task-date{
     width: 100px;
+    margin-left: 10px;
 }
 
 .task-description{
-    width: 200px;
+    width: 190px;
     overflow: hidden;
     height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .task-daysLeft{
     width: 100px;
+    margin-left: 10px;
 }
