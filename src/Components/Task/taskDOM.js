@@ -1,31 +1,7 @@
 import './task.css';
 import Task from './task';
+import { diffDate, newDate } from '../Date/date.js';
 export { createDOMTask, createTaskForm };
-
-function createDOMTask() {
-    const task = document.createElement("div");
-    task.className = "task-body";
-
-    const taskTitle = document.createElement("div");
-    taskTitle.className = "task-title";
-    taskTitle.textContent = "New Task";
-    const taskDate = document.createElement("div");
-    taskDate.className = "task-date";
-    taskDate.textContent = "01/01/2001";
-    const taskDescription = document.createElement("div");
-    taskDescription.className = "task-description";
-    taskDescription.textContent = "This is an exemple of task with a overflowing description";
-    const taskDaysLeft = document.createElement("div");
-    taskDaysLeft.className = "task-daysLeft";
-    taskDaysLeft.textContent = "00 days left";
-
-    task.appendChild(taskTitle);
-    task.appendChild(taskDate);
-    task.appendChild(taskDescription);
-    task.appendChild(taskDaysLeft);
-
-    return task;
-}
 
 function createTaskForm() {
     const modal = document.createElement("div");
@@ -53,13 +29,13 @@ function createTaskForm() {
     const inputPriority = document.createElement("select");
     inputPriority.className = "form-input";
     inputPriority.id = "formPriority";
+    inputPriority.name = "priority";
     for (let index = 1; index <= 10; index++) {
         const element = document.createElement("option");
         element.textContent = index;
         element.value = index;
         inputPriority.appendChild(element);
     }
-    inputPriority.name = "priority";
 
     const labelDueDate = document.createElement("label");
     labelDueDate.htmlFor = "formDueDate";
@@ -87,18 +63,11 @@ function createTaskForm() {
     createButton.type = "submit";
     createButton.addEventListener("click", (e) => {
         e.preventDefault();
-        const formData = new FormData(taskForm);
-        var data;
-        console.log("here");
-        for (const [key, value] of formData) {
-            console.log(`${key}: ${value}\n`);
-          }
-        //  var task = new Task(...data);
-
-        
+        const tasks = createTask(taskForm);
         document.body.removeChild(modal);
         e.stopPropagation();
-    })
+        return tasks;
+    });
 
     const cancelButton = document.createElement("button");
     cancelButton.className = "task-cancelButton";
@@ -131,4 +100,44 @@ function createTaskForm() {
     });
 
     return modal;
+}
+
+function createTask(taskForm) {
+    const formData = new FormData(taskForm);
+    const data = [];
+    for (const [key, value] of formData) {
+        data.push(value);
+    }
+    const task = new Task(...data);
+    const taskDOM = createDOMTask(
+        formData.get("title"),
+        newDate(formData.get("dueDate")),
+        formData.get("description")
+    );
+    return {task, taskDOM};
+}
+
+function createDOMTask(title, dueDate, description) {
+    const taskDOM = document.createElement("div");
+    taskDOM.className = "task-body";
+
+    const taskTitle = document.createElement("div");
+    taskTitle.className = "task-title";
+    taskTitle.textContent = title;
+    const taskDate = document.createElement("div");
+    taskDate.className = "task-date";
+    taskDate.textContent = dueDate;
+    const taskDescription = document.createElement("div");
+    taskDescription.className = "task-description";
+    taskDescription.textContent = description;
+    const taskDaysLeft = document.createElement("div");
+    taskDaysLeft.className = "task-daysLeft";
+    taskDaysLeft.textContent = diffDate(dueDate);
+
+    taskDOM.appendChild(taskTitle);
+    taskDOM.appendChild(taskDate);
+    taskDOM.appendChild(taskDescription);
+    taskDOM.appendChild(taskDaysLeft);
+
+    return taskDOM;
 }

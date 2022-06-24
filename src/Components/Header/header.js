@@ -1,4 +1,5 @@
 import './header.css'
+import createDOMList from '../List/listDOM.js';
 export default createHeader;
 
 const text1 = "Your to-do list!";
@@ -19,6 +20,10 @@ function createListBtn() {
     newListBtn.className = "header-button";
     newListBtn.id = "newListButton";
     newListBtn.textContent = "+ Create new list";
+
+    newListBtn.addEventListener("click", () => {
+        document.getElementById("mainContainer").appendChild(createDOMList());
+    });
 
     return newListBtn;
 }

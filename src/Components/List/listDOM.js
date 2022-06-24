@@ -1,5 +1,7 @@
 import './list.css';
-import {createDOMTask, createTaskForm} from '../Task/taskDOM';
+import { addList, removeList } from '../Main/main';
+import List from './list';
+import { createTaskForm } from '../Task/taskDOM';
 export default createDOMList;
 
 function createDOMList() {
@@ -17,10 +19,10 @@ function createDOMList() {
 
     list.appendChild(createListHeader());
     list.appendChild(taskList);
-    taskList.appendChild(createDOMTask());
     taskList.appendChild(addTaskButton);
     list.appendChild(createListFooter());
 
+    addList(new List());
     return list;
 }
 
@@ -35,7 +37,7 @@ function createListHeader() {
     delListButton.id = "delListButton";
     delListButton.textContent = "X";
 
-    delListButton.addEventListener("click", delList);
+    delListButton.addEventListener("click", killDOMList);
 
     listHeader.appendChild(title);
     listHeader.appendChild(delListButton)
@@ -43,10 +45,16 @@ function createListHeader() {
     return listHeader;
 }
 
-function delList(event) {
+function killDOMList(event) {
     const listToBeRemoved = event.target.parentNode.parentNode;
+    killList(listToBeRemoved.parentNode.children.indexOf(listToBeRemoved));
     listToBeRemoved.parentNode.removeChild(listToBeRemoved);
 }
+
+function killList(index){
+    removeList(index);
+};
+
 
 function createTask(button) {
     button.addEventListener("click", () => {

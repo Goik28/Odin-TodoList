@@ -1,18 +1,15 @@
-import './main.css';
-import createDOMList from '../List/listDOM.js';
+export {addList, removeList, getListContainer};
 
-export default createMain;
+const listContainer = [];
 
-function createMain() {
-    const main = document.createElement("main");
-    main.appendChild(createDOMList());
-    
-    createNewList(document.getElementById("newListButton"), main);
-    return main;
+function addList(list) {
+    listContainer.push(list);
 }
 
-function createNewList(element, parent) {
-    element.addEventListener("click", () => {
-        parent.appendChild(createDOMList());
-    });
+function removeList(list) {
+    listContainer.splice(listContainer.indexOf(list), 1);
+}
+
+function getListContainer(){
+    return listContainer;
 }
