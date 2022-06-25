@@ -2,6 +2,7 @@ import './task.css';
 import { getList } from '../Main/main';
 import Task from './task';
 import { diffDate, newDate, formatDate } from '../Date/date.js';
+import { updateTotalTasks, updateTotalDueTasks } from '../List/listDOM';
 export { createDOMTask, createTaskForm };
 
 function createTaskForm(parentList) {
@@ -64,10 +65,8 @@ function createTaskForm(parentList) {
     createButton.type = "submit";
     createButton.addEventListener("click", (e) => {
         e.preventDefault();
-        const tasks = createTask(taskForm);
-        const array = Array.from(parentList.parentNode.children);
-        getList(array.indexOf(parentList)).addTask(tasks[0]);
-        parentList.children[1].insertBefore(tasks[1], parentList.children[1].firstChild);
+        const tasks = createTask(taskForm);        
+        addTaskDOMToList(parentList, tasks);
         document.body.removeChild(modal);
         e.stopPropagation();
     });
@@ -151,4 +150,15 @@ function createDOMTask(title, dueDate, description) {
     taskDOM.appendChild(taskDaysLeft);
 
     return taskDOM;
+}
+
+function addTaskDOMToList(parentList, tasks) {
+    const array = Array.from(parentList.parentNode.children);
+    getList(array.indexOf(parentList)).addTask(tasks[0]);
+    parentList.children[1].insertBefore(tasks[1], parentList.children[1].firstChild);
+    
+    const main = Array.from(parentList.parentNode.children);
+    const list = getList(main.indexOf(parentList));
+    updateTotalTasks(parentList, list.totalTasks());
+    updateTotalDueTasks(parentList, list.totalDueTasks());
 }

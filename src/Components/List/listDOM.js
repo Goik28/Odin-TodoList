@@ -89,9 +89,9 @@ function createListFooter() {
 }
 
 export function updateTotalTasks(ListDOM, totalTask){
-    ListDOM.children[2].children[0].children[1].textContent = totalTask;
+    ListDOM.children[2].children[0].children[0].textContent = totalTask;
 }
 
 export function updateTotalDueTasks(ListDOM, totalDueTask){
-    ListDOM.children[2].children[1].children[1].textContent = totalDueTask;
+    ListDOM.children[2].children[1].children[0].textContent = totalDueTask;
 }
