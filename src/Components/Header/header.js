@@ -1,5 +1,6 @@
 import './header.css'
 import createDOMList from '../List/listDOM.js';
+import List from '../List/list';
 export default createHeader;
 
 const text1 = "Your to-do list!";

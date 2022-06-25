@@ -1,10 +1,9 @@
 import './list.css';
-import { addList, removeList } from '../Main/main';
+import { addList, removeList, getList } from '../Main/main';
 import List from './list';
 import { createTaskForm } from '../Task/taskDOM';
-export default createDOMList;
 
-function createDOMList() {
+export function createDOMList() {
     const list = document.createElement("div");
     list.className = "list-body";
 
@@ -36,7 +35,6 @@ function createListHeader() {
     delListButton.className = "list-delButton";
     delListButton.id = "delListButton";
     delListButton.textContent = "X";
-
     delListButton.addEventListener("click", killDOMList);
 
     listHeader.appendChild(title);
@@ -47,7 +45,8 @@ function createListHeader() {
 
 function killDOMList(event) {
     const listToBeRemoved = event.target.parentNode.parentNode;
-    killList(listToBeRemoved.parentNode.children.indexOf(listToBeRemoved));
+    const array = Array.from(listToBeRemoved.parentNode.children);
+    killList(array.indexOf(listToBeRemoved));
     listToBeRemoved.parentNode.removeChild(listToBeRemoved);
 }
 
@@ -57,8 +56,9 @@ function killList(index){
 
 
 function createTask(button) {
-    button.addEventListener("click", () => {
-        const taskForm = createTaskForm();
+    button.addEventListener("click", (e) => {
+        const parentList = e.target.parentNode.parentNode;
+        const taskForm = createTaskForm(parentList);
         document.body.appendChild(taskForm);
     });
 }
@@ -86,4 +86,12 @@ function createListFooter() {
     totalDueTasks.appendChild(dataDue);
 
     return listFooter
+}
+
+export function updateTotalTasks(ListDOM, totalTask){
+    ListDOM.children[2].children[0].children[1].textContent = totalTask;
+}
+
+export function updateTotalDueTasks(ListDOM, totalDueTask){
+    ListDOM.children[2].children[1].children[1].textContent = totalDueTask;
 }

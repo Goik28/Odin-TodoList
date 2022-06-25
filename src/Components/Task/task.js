@@ -6,7 +6,6 @@ export default class Task {
     dueDate;
     priority;
     pastDue;
-    daysLeft;
 
     constructor(title, priority, dueDate, description ) {
         this.title = title;
@@ -14,7 +13,6 @@ export default class Task {
         this.dueDate = date.newDate(dueDate);
         this.priority = priority;
         this.isPastDue();
-        this.setDaysLeft();
     }
 
     get title() {
@@ -35,10 +33,6 @@ export default class Task {
 
     get pastDue() {
         return this.pastDue;
-    }
-
-    get daysLeft() {
-        return this.daysLeft;
     }
 
     set title(title) {
@@ -66,9 +60,5 @@ export default class Task {
         } else {
             this.pastDue = false;
         }
-    }
-
-    setDaysLeft() {
-        this.daysLeft = date.diffDate(this.dueDate);
     }
 }

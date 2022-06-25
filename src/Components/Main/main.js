@@ -1,4 +1,4 @@
-export {addList, removeList, getListContainer};
+export {addList, removeList, getList};
 
 const listContainer = [];
 
@@ -10,6 +10,6 @@ function removeList(list) {
     listContainer.splice(listContainer.indexOf(list), 1);
 }
 
-function getListContainer(){
-    return listContainer;
+function getList(index){
+    return listContainer[index];
 }

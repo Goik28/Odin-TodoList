@@ -1,9 +1,10 @@
 import './task.css';
+import { getList } from '../Main/main';
 import Task from './task';
-import { diffDate, newDate } from '../Date/date.js';
+import { diffDate, newDate, formatDate } from '../Date/date.js';
 export { createDOMTask, createTaskForm };
 
-function createTaskForm() {
+function createTaskForm(parentList) {
     const modal = document.createElement("div");
     modal.className = "task-modal";
     modal.id = "taskModal";
@@ -64,9 +65,11 @@ function createTaskForm() {
     createButton.addEventListener("click", (e) => {
         e.preventDefault();
         const tasks = createTask(taskForm);
+        const array = Array.from(parentList.parentNode.children);
+        getList(array.indexOf(parentList)).addTask(tasks[0]);
+        parentList.children[1].insertBefore(tasks[1], parentList.children[1].firstChild);
         document.body.removeChild(modal);
         e.stopPropagation();
-        return tasks;
     });
 
     const cancelButton = document.createElement("button");
@@ -114,7 +117,7 @@ function createTask(taskForm) {
         newDate(formData.get("dueDate")),
         formData.get("description")
     );
-    return {task, taskDOM};
+    return [task, taskDOM];
 }
 
 function createDOMTask(title, dueDate, description) {
@@ -126,13 +129,21 @@ function createDOMTask(title, dueDate, description) {
     taskTitle.textContent = title;
     const taskDate = document.createElement("div");
     taskDate.className = "task-date";
-    taskDate.textContent = dueDate;
+    taskDate.textContent = formatDate(dueDate);
     const taskDescription = document.createElement("div");
     taskDescription.className = "task-description";
     taskDescription.textContent = description;
     const taskDaysLeft = document.createElement("div");
     taskDaysLeft.className = "task-daysLeft";
-    taskDaysLeft.textContent = diffDate(dueDate);
+    if (diffDate(dueDate) == 0 || diffDate(dueDate) == 1) {
+        taskDaysLeft.textContent = diffDate(dueDate) + " day left";
+    } else if (diffDate(dueDate) > 1) {
+        taskDaysLeft.textContent = diffDate(dueDate) + " days left";
+    } if (diffDate(dueDate) == -1) {
+        taskDaysLeft.textContent = diffDate(dueDate) * (-1) + " day ago";
+    } else if (diffDate(dueDate) < 1) {
+        taskDaysLeft.textContent = diffDate(dueDate) * (-1) + " days ago";
+    }
 
     taskDOM.appendChild(taskTitle);
     taskDOM.appendChild(taskDate);
