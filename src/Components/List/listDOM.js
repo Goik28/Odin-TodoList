@@ -31,6 +31,17 @@ function createListHeader() {
     const title = document.createElement("input");
     title.className = "list-title";
     title.value = "New List";
+    title.addEventListener("change", () => {
+        const list = listHeader.parentNode;
+        const array = Array.from(list.parentNode.children);
+        getList(array.indexOf(list)).name = title.value;
+    });
+    title.addEventListener("keyup", (e)=>{
+        if (e.key == "Enter") {
+            e.target.blur();            
+        }
+    });
+
     const delListButton = document.createElement("button");
     delListButton.className = "list-delButton";
     delListButton.id = "delListButton";
@@ -50,7 +61,7 @@ function killDOMList(event) {
     listToBeRemoved.parentNode.removeChild(listToBeRemoved);
 }
 
-function killList(index){
+function killList(index) {
     removeList(index);
 };
 
@@ -88,10 +99,10 @@ function createListFooter() {
     return listFooter
 }
 
-export function updateTotalTasks(ListDOM, totalTask){
+export function updateTotalTasks(ListDOM, totalTask) {
     ListDOM.children[2].children[0].children[0].textContent = totalTask;
 }
 
-export function updateTotalDueTasks(ListDOM, totalDueTask){
+export function updateTotalDueTasks(ListDOM, totalDueTask) {
     ListDOM.children[2].children[1].children[0].textContent = totalDueTask;
 }

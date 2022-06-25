@@ -29,11 +29,12 @@
     background-color: rgba(245, 245, 244, 0.5);
 }
 
-.list-delButton {
+.list-delButton {    
     background-color: rgba(245, 245, 244, 0.5);
     font-weight: 700;
     font-size: 1.4rem;
     border: solid rgba(255, 255, 255, 1) 0px;
+    margin-left: 5px;
 }
 
 .list-tasks {

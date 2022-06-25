@@ -65,7 +65,7 @@ function createTaskForm(parentList) {
     createButton.type = "submit";
     createButton.addEventListener("click", (e) => {
         e.preventDefault();
-        const tasks = createTask(taskForm);        
+        const tasks = createTask(taskForm);
         addTaskDOMToList(parentList, tasks);
         document.body.removeChild(modal);
         e.stopPropagation();
@@ -93,13 +93,13 @@ function createTaskForm(parentList) {
     footer.appendChild(createButton);
     footer.appendChild(cancelButton);
     taskForm.appendChild(footer);
-
-    modal.addEventListener("click", (e) => {
-        if (e.target == modal) {
-            document.body.removeChild(modal);
-            e.stopPropagation();
-        }
-    });
+    /* exit modal clicking anywhere on the screen.
+        modal.addEventListener("click", (e) => {
+            if (e.target == modal) {
+                document.body.removeChild(modal);
+                e.stopPropagation();
+            }
+        });*/
 
     return modal;
 }
@@ -156,7 +156,7 @@ function addTaskDOMToList(parentList, tasks) {
     const array = Array.from(parentList.parentNode.children);
     getList(array.indexOf(parentList)).addTask(tasks[0]);
     parentList.children[1].insertBefore(tasks[1], parentList.children[1].firstChild);
-    
+
     const main = Array.from(parentList.parentNode.children);
     const list = getList(main.indexOf(parentList));
     updateTotalTasks(parentList, list.totalTasks());
