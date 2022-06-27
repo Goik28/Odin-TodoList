@@ -5,7 +5,7 @@ import { diffDate, newDate, formatDate } from '../Date/date.js';
 import { updateTotalTasks, updateTotalDueTasks } from '../List/listDOM';
 export { createDOMTask, createTaskForm };
 
-function createTaskForm(parentList) {
+function createTaskForm(parentList, task = false) {
     const modal = document.createElement("div");
     modal.className = "task-modal";
     modal.id = "taskModal";
@@ -14,7 +14,11 @@ function createTaskForm(parentList) {
     taskForm.className = "task-form";
     const header = document.createElement("div");
     header.className = "form-header";
-    header.textContent = "Create new task";
+    if (arguments.length == 1) {
+        header.textContent = "Create new task";
+    } else {
+        header.textContent = "Update task";
+    }
 
     const labelTitle = document.createElement("label");
     labelTitle.htmlFor = "formTitle";
@@ -24,6 +28,12 @@ function createTaskForm(parentList) {
     inputTitle.id = "formTitle";
     inputTitle.name = "title";
     inputTitle.placeholder = "Ex: Buy Grocery";
+    if (arguments.length == 1) {
+        inputTitle.value = "";
+    } else {
+        inputTitle.value = task.title;
+    }
+
 
     const labelPriority = document.createElement("label");
     labelPriority.htmlFor = "formPriority";
@@ -38,6 +48,12 @@ function createTaskForm(parentList) {
         element.value = index;
         inputPriority.appendChild(element);
     }
+    if (arguments.length == 1) {
+        inputPriority.value = 1;
+    } else {
+        inputPriority.value = task.priority;
+    }
+
 
     const labelDueDate = document.createElement("label");
     labelDueDate.htmlFor = "formDueDate";
@@ -46,8 +62,12 @@ function createTaskForm(parentList) {
     inputDueDate.className = "form-input";
     inputDueDate.id = "formDueDate";
     inputDueDate.type = "date";
-    inputDueDate.valueAsDate = new Date();
     inputDueDate.name = "dueDate";
+    if (arguments.length == 1) {
+        inputDueDate.valueAsDate = new Date();
+    } else {
+        inputDueDate.valueAsDate = task.dueDate;
+    }
 
     const labelDescription = document.createElement("label");
     labelTitle.htmlFor = "formDescription";
@@ -56,6 +76,12 @@ function createTaskForm(parentList) {
     inputDescription.id = "formDescription";
     inputDescription.placeholder = "Ex: Buy 2 tomatoes";
     inputDescription.name = "description";
+    if (arguments.length == 1) {
+        inputDescription.value = "";
+    } else {
+        inputDescription.value = task.description;
+    }
+    
 
     const footer = document.createElement("div");
     footer.className = "form-footer";
@@ -93,6 +119,7 @@ function createTaskForm(parentList) {
     footer.appendChild(createButton);
     footer.appendChild(cancelButton);
     taskForm.appendChild(footer);
+
     /* exit modal clicking anywhere on the screen.
         modal.addEventListener("click", (e) => {
             if (e.target == modal) {
@@ -138,9 +165,9 @@ function createDOMTask(title, dueDate, description) {
         taskDaysLeft.textContent = diffDate(dueDate) + " day left";
     } else if (diffDate(dueDate) > 1) {
         taskDaysLeft.textContent = diffDate(dueDate) + " days left";
-    } if (diffDate(dueDate) == -1) {
+    } else if (diffDate(dueDate) == -1) {
         taskDaysLeft.textContent = diffDate(dueDate) * (-1) + " day ago";
-    } else if (diffDate(dueDate) < 1) {
+    } else if (diffDate(dueDate) < -1) {
         taskDaysLeft.textContent = diffDate(dueDate) * (-1) + " days ago";
     }
 
@@ -148,6 +175,16 @@ function createDOMTask(title, dueDate, description) {
     taskDOM.appendChild(taskDate);
     taskDOM.appendChild(taskDescription);
     taskDOM.appendChild(taskDaysLeft);
+
+taskDOM.addEventListener("click", (e)=>{
+    const parentListDOM = taskDOM.parentElement.parentElement;
+    const main = parentListDOM.parentElement.children;
+    const arrayMain = Array.from(main);
+    const list = getList(arrayMain.indexOf(parentListDOM));
+    const arrayList = Array.from(taskDOM.parentElement.children)   
+
+    const task = list.taskcontainer.indexOf()
+})
 
     return taskDOM;
 }
@@ -161,4 +198,8 @@ function addTaskDOMToList(parentList, tasks) {
     const list = getList(main.indexOf(parentList));
     updateTotalTasks(parentList, list.totalTasks());
     updateTotalDueTasks(parentList, list.totalDueTasks());
+}
+
+function updateTask(parentList, task) {
+
 }

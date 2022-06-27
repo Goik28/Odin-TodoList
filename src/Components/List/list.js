@@ -22,6 +22,10 @@ export default class List {
         this.taskContainer.push(Task);
     }
 
+    getTask(index){
+        return this.taskContainer[index];
+    }
+
     removeTask(Task) {
         this.taskContainer.splice(Task - 1, 1);
     }
