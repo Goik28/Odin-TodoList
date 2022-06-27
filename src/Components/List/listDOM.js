@@ -1,52 +1,48 @@
 import './list.css';
-import { addList, removeList, getList } from '../Main/main';
-import List from './list';
+import { removeList, getListById } from '../Main/main';
 import { createTaskForm } from '../Task/taskDOM';
 
-export function createDOMList() {
-    const list = document.createElement("div");
-    list.className = "list-body";
-
+export function createDOMList(listId) {
+    const listDOM = document.createElement("div");
+    listDOM.className = "list-body";
 
     const taskList = document.createElement("div");
     taskList.className = "list-tasks";
-    taskList.id = "taskList";
+    taskList.id = listId;
     const addTaskButton = document.createElement("button");
     addTaskButton.className = "list-addButton";
     addTaskButton.textContent = "+";
     createTask(addTaskButton);
 
-    list.appendChild(createListHeader());
-    list.appendChild(taskList);
+    listDOM.appendChild(createListHeader(listId));
+    listDOM.appendChild(taskList);
     taskList.appendChild(addTaskButton);
-    list.appendChild(createListFooter());
+    listDOM.appendChild(createListFooter(listId));
 
-    addList(new List());
-    return list;
+    return listDOM;
 }
 
-function createListHeader() {
+function createListHeader(listId) {
     const listHeader = document.createElement("div");
     listHeader.className = "list-header";
     const title = document.createElement("input");
     title.className = "list-title";
     title.value = "New List";
     title.addEventListener("change", () => {
-        const list = listHeader.parentNode;
-        const array = Array.from(list.parentNode.children);
-        getList(array.indexOf(list)).name = title.value;
+        getListById(listId).name = title.value;
     });
-    title.addEventListener("keyup", (e)=>{
+    title.addEventListener("keyup", (e) => {
         if (e.key == "Enter") {
-            e.target.blur();            
+            e.target.blur();
         }
     });
 
     const delListButton = document.createElement("button");
     delListButton.className = "list-delButton";
-    delListButton.id = "delListButton";
     delListButton.textContent = "X";
-    delListButton.addEventListener("click", killDOMList);
+    delListButton.addEventListener("click", () => {
+        killList(listId);
+    });
 
     listHeader.appendChild(title);
     listHeader.appendChild(delListButton)
@@ -54,15 +50,10 @@ function createListHeader() {
     return listHeader;
 }
 
-function killDOMList(event) {
-    const listToBeRemoved = event.target.parentNode.parentNode;
-    const array = Array.from(listToBeRemoved.parentNode.children);
-    killList(array.indexOf(listToBeRemoved));
-    listToBeRemoved.parentNode.removeChild(listToBeRemoved);
-}
-
-function killList(index) {
-    removeList(index);
+function killList(listId) {
+    removeList(getListById());
+    const listDOMToBeRemoved = document.getElementById(listId).parentElement;
+    document.getElementById("mainContainer").removeChild(listDOMToBeRemoved);
 };
 
 

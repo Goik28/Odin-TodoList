@@ -1,9 +1,14 @@
 export default class List {
-    taskContainer = [];
+    id;
     name;
+    taskContainer = [];
 
-    constructor(name) {
-        this.name = name;
+    constructor(id) {
+        this.id = id;
+    }
+
+    get id() {
+        return this.id;
     }
 
     get name() {
@@ -14,6 +19,10 @@ export default class List {
         return this.taskContainer;
     }
 
+    set id(id) {
+        this.id = id;
+    }
+
     set name(name) {
         this.name = name;
     }
@@ -22,7 +31,7 @@ export default class List {
         this.taskContainer.push(Task);
     }
 
-    getTask(index){
+    getTask(index) {
         return this.taskContainer[index];
     }
 

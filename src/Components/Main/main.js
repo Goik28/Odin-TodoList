@@ -1,15 +1,19 @@
-export {addList, removeList, getList};
-
 const listContainer = [];
 
-function addList(list) {
+export function getListContainer(){
+    return listContainer;
+}
+
+export function addList(list) {
     listContainer.push(list);
 }
 
-function removeList(list) {
+export function removeList(list) {
     listContainer.splice(listContainer.indexOf(list), 1);
 }
 
-function getList(index){
-    return listContainer[index];
+export function getListById(id){
+    return listContainer.find((value)=>{
+        return (value.id == id);
+    });
 }
