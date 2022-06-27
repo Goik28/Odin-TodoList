@@ -12,7 +12,9 @@ export function createDOMList(listId) {
     const addTaskButton = document.createElement("button");
     addTaskButton.className = "list-addButton";
     addTaskButton.textContent = "+";
-    createTask(addTaskButton);
+    addTaskButton.addEventListener("click", () => {
+        callTaskForm(listId);
+    });
 
     listDOM.appendChild(createListHeader(listId));
     listDOM.appendChild(taskList);
@@ -50,36 +52,66 @@ function createListHeader(listId) {
     return listHeader;
 }
 
+function callKillConfirmation(listId) {
+    const confirmationModal = document.createElement("div");
+    confirmationModal.className = "confirmation-modal";
+
+    const confirmationMain = document.createElement("div")
+    confirmationMain.className = "confirmation-main";
+    confirmationMain = "Are you sure you want to permanently delete this list?"
+
+    const confirmationListName = document.createElement("div");
+    confirmationListName.className = "confirmation-listName";
+    confirmationListName.textContent = getListById(listId).name;
+
+    const confirmationFooter = document.createElement("div");
+    confirmationFooter.className = "confirmation-footer";
+
+    const confirmationKillButton = document.createElement("button");
+    confirmationKillButton.className = "confirmation-killButton"
+    confirmationKillButton.textContent = "DELETE";
+    confirmationKillButton.addEventListener("click", () => {
+        killList(listId);
+    });
+
+    const confirmationCancelButton = document.createElement("button");
+    confirmationCancelButton.className = "confirmation-cancelButton";
+    confirmationCancelButton.textContent = "Cancel";
+    confirmationCancelButton.addEventListener("click", () => {
+        //cancel modal
+    });
+}
+
+
 function killList(listId) {
     removeList(getListById());
     const listDOMToBeRemoved = document.getElementById(listId).parentElement;
     document.getElementById("mainContainer").removeChild(listDOMToBeRemoved);
 };
 
-
-function createTask(button) {
-    button.addEventListener("click", (e) => {
-        const parentList = e.target.parentNode.parentNode;
-        const taskForm = createTaskForm(parentList);
-        document.body.appendChild(taskForm);
-    });
+function callTaskForm(listId) {
+    const taskForm = createTaskForm(listId);
+    document.body.appendChild(taskForm);
 }
 
-function createListFooter() {
+function createListFooter(listId) {
     const listFooter = document.createElement("div");
     listFooter.className = "list-footer";
+
     const totalTasks = document.createElement("div");
+    totalTasks.textContent = "Total tasks: ";
+
     const totalDueTasks = document.createElement("div");
+    totalDueTasks.textContent = "Past due: ";
 
     const dataTotal = document.createElement("span");
     dataTotal.className = "list-dataTotal";
+    dataTotal.id = listId + "-total";
+    dataTotal.textContent = " 0";
+
     const dataDue = document.createElement("span");
     dataDue.className = "list-dataDue";
-
-    totalTasks.textContent = "Total tasks: ";
-    totalDueTasks.textContent = "Past due: ";
-
-    dataTotal.textContent = " 0";
+    dataDue.id = listId + "-totalDue";
     dataDue.textContent = " 0";
 
     listFooter.appendChild(totalTasks);
@@ -90,10 +122,12 @@ function createListFooter() {
     return listFooter
 }
 
-export function updateTotalTasks(ListDOM, totalTask) {
-    ListDOM.children[2].children[0].children[0].textContent = totalTask;
+export function updateTotalTasks(listId) {
+    const field = document.getElementById(listId + "-total");
+    field.textContent = getListById(listId).totalTasks();
 }
 
-export function updateTotalDueTasks(ListDOM, totalDueTask) {
-    ListDOM.children[2].children[1].children[0].textContent = totalDueTask;
+export function updateTotalDueTasks(listId) {
+    const field = document.getElementById(listId + "-totalDue");
+    field.textContent = getListById(listId).totalDueTasks();
 }
