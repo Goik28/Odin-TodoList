@@ -30,6 +30,7 @@ function createListHeader(listId) {
     const title = document.createElement("input");
     title.className = "list-title";
     title.value = "New List";
+    getListById(listId).name = title.value;
     title.addEventListener("change", () => {
         getListById(listId).name = title.value;
     });
@@ -43,7 +44,7 @@ function createListHeader(listId) {
     delListButton.className = "list-delButton";
     delListButton.textContent = "X";
     delListButton.addEventListener("click", () => {
-        killList(listId);
+        document.body.appendChild(callKillConfirmation(listId));
     });
 
     listHeader.appendChild(title);
@@ -56,9 +57,9 @@ function callKillConfirmation(listId) {
     const confirmationModal = document.createElement("div");
     confirmationModal.className = "confirmation-modal";
 
-    const confirmationMain = document.createElement("div")
+    const confirmationMain = document.createElement("div");
     confirmationMain.className = "confirmation-main";
-    confirmationMain = "Are you sure you want to permanently delete this list?"
+    confirmationMain.textContent = "Are you sure you want to permanently delete this list?";
 
     const confirmationListName = document.createElement("div");
     confirmationListName.className = "confirmation-listName";
@@ -68,23 +69,32 @@ function callKillConfirmation(listId) {
     confirmationFooter.className = "confirmation-footer";
 
     const confirmationKillButton = document.createElement("button");
-    confirmationKillButton.className = "confirmation-killButton"
+    confirmationKillButton.className = "confirmation-killButton";
     confirmationKillButton.textContent = "DELETE";
     confirmationKillButton.addEventListener("click", () => {
         killList(listId);
+        document.body.removeChild(confirmationModal);
     });
 
     const confirmationCancelButton = document.createElement("button");
     confirmationCancelButton.className = "confirmation-cancelButton";
     confirmationCancelButton.textContent = "Cancel";
     confirmationCancelButton.addEventListener("click", () => {
-        //cancel modal
+        document.body.removeChild(confirmationModal);
     });
+
+    confirmationModal.appendChild(confirmationMain);
+    confirmationMain.appendChild(confirmationListName);
+    confirmationMain.appendChild(confirmationFooter);
+    confirmationFooter.appendChild(confirmationKillButton);
+    confirmationFooter.appendChild(confirmationCancelButton);
+
+    return confirmationModal;
 }
 
 
 function killList(listId) {
-    removeList(getListById());
+    removeList(getListById(listId));
     const listDOMToBeRemoved = document.getElementById(listId).parentElement;
     document.getElementById("mainContainer").removeChild(listDOMToBeRemoved);
 };

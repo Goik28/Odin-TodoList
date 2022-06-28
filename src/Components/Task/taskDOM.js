@@ -1,5 +1,5 @@
 import './task.css';
-import { getList } from '../Main/main';
+import { getListById } from '../Main/main';
 import Task from './task';
 import { diffDate, newDate, formatDate } from '../Date/date.js';
 import { updateTotalTasks, updateTotalDueTasks } from '../List/listDOM';
@@ -8,7 +8,6 @@ export { createDOMTask, createTaskForm };
 function createTaskForm(parentList, task = false) {
     const modal = document.createElement("div");
     modal.className = "task-modal";
-    modal.id = "taskModal";
 
     const taskForm = document.createElement("form");
     taskForm.className = "task-form";

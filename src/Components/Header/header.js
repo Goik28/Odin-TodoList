@@ -41,7 +41,7 @@ function generateListId(){
     if (getListContainer().length == NaN) {
         listId = 0;
     } else {
-        listId = getListContainer().length - 1;
+        listId = getListContainer().length;
     }
     return listId;
 }
