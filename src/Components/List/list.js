@@ -3,8 +3,9 @@ export default class List {
     name;
     taskContainer = [];
 
-    constructor(id) {
+    constructor(id, name = "New List") {
         this.id = id;
+        this.name = name;
     }
 
     get id() {
@@ -40,14 +41,21 @@ export default class List {
     }
 
     totalTasks() {
-        return this.taskContainer.length;
+        if (this.taskContainer.length === undefined) {
+            return 0;
+        } else {
+            return this.taskContainer.length;
+        }
     }
 
     totalDueTasks() {
-        //logic for returning only the late tasks
-        const pastDue = this.taskContainer.filter((value) => {
-            return value.pastDue;
-        });
-        return pastDue.length;
+        if (this.taskContainer.length === undefined) {
+            return 0;
+        } else {
+            const pastDue = this.taskContainer.filter((value) => {
+                return value.pastDue;
+            });
+            return pastDue.length;
+        }
     }
 }

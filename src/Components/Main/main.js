@@ -1,4 +1,4 @@
-let listIdGenerator = 0;
+let listIdGenerator = -1;
 const listContainer = [];
 
 export function getListContainer(){
@@ -19,8 +19,7 @@ export function getListById(id){
     });
 }
 
-function generateListId(){  
+export function generateListId(){  
     listIdGenerator++;
-    return listIdGenerator-1;
-    
+    return listIdGenerator;    
 }

@@ -29,8 +29,7 @@ function createListHeader(listId) {
     listHeader.className = "list-header";
     const title = document.createElement("input");
     title.className = "list-title";
-    title.value = "New List";
-    getListById(listId).name = title.value;
+    title.value = getListById(listId).name;
     title.addEventListener("change", () => {
         getListById(listId).name = title.value;
     });
@@ -117,12 +116,12 @@ function createListFooter(listId) {
     const dataTotal = document.createElement("span");
     dataTotal.className = "list-dataTotal";
     dataTotal.id = listId + "-total";
-    dataTotal.textContent = " 0";
+    dataTotal.textContent = " " + updateTotalTasks(listId);
 
     const dataDue = document.createElement("span");
     dataDue.className = "list-dataDue";
     dataDue.id = listId + "-totalDue";
-    dataDue.textContent = " 0";
+    dataDue.textContent = " " + updateTotalDueTasks(listId);
 
     listFooter.appendChild(totalTasks);
     totalTasks.appendChild(dataTotal);
@@ -133,11 +132,9 @@ function createListFooter(listId) {
 }
 
 export function updateTotalTasks(listId) {
-    const field = document.getElementById(listId + "-total");
-    field.textContent = getListById(listId).totalTasks();
+    return getListById(listId).totalTasks();
 }
 
 export function updateTotalDueTasks(listId) {
-    const field = document.getElementById(listId + "-totalDue");
-    field.textContent = getListById(listId).totalDueTasks();
+    return getListById(listId).totalDueTasks();
 }

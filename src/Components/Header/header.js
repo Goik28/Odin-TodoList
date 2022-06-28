@@ -1,15 +1,12 @@
 import './header.css'
 import { createDOMList } from '../List/listDOM.js';
 import List from '../List/list';
-import { addList, getListContainer } from '../Main/main';
-export default createHeader;
+import { addList, generateListId } from '../Main/main';
 
-const text1 = "Your to-do list!";
-
-function createHeader() {
+export function createHeader() {
     const header = document.createElement('header');
     const about = document.createElement('div');
-    about.textContent = text1;
+    about.textContent = "Your to-do list!";
 
     header.appendChild(about);
     header.appendChild(createListBtn());
@@ -34,14 +31,4 @@ function createList() {
     const list = new List("list-" + generateListId());
     addList(list);
     document.getElementById("mainContainer").appendChild(createDOMList(list.id));
-}
-
-function generateListId(){
-    let listId;
-    if (getListContainer().length == NaN) {
-        listId = 0;
-    } else {
-        listId = getListContainer().length;
-    }
-    return listId;
 }
