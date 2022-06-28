@@ -40,6 +40,12 @@ export default class List {
         this.taskContainer.splice(Task - 1, 1);
     }
 
+    orderTasks() {
+        this.taskContainer.sort((a, b) => {
+            return b - a;
+        });
+    }
+
     totalTasks() {
         if (this.taskContainer.length === undefined) {
             return 0;

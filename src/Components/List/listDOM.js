@@ -1,37 +1,39 @@
 import './list.css';
-import { removeList, getListById } from '../Main/main';
+import { removeList } from '../Main/main';
 import { createTaskForm } from '../Task/taskDOM';
+import List from './list';
 
-export function createDOMList(listId) {
+export function createDOMList() {
+    const list = createList();
     const listDOM = document.createElement("div");
     listDOM.className = "list-body";
 
     const taskList = document.createElement("div");
     taskList.className = "list-tasks";
-    taskList.id = listId;
+    taskList.id = list.id;
     const addTaskButton = document.createElement("button");
     addTaskButton.className = "list-addButton";
     addTaskButton.textContent = "+";
     addTaskButton.addEventListener("click", () => {
-        callTaskForm(listId);
+        callTaskForm(list);
     });
 
-    listDOM.appendChild(createListHeader(listId));
+    listDOM.appendChild(createListHeader(list));
     listDOM.appendChild(taskList);
     taskList.appendChild(addTaskButton);
-    listDOM.appendChild(createListFooter(listId));
+    listDOM.appendChild(createListFooter(list));
 
     return listDOM;
 }
 
-function createListHeader(listId) {
+function createListHeader(list) {
     const listHeader = document.createElement("div");
     listHeader.className = "list-header";
     const title = document.createElement("input");
     title.className = "list-title";
-    title.value = getListById(listId).name;
+    title.value = list.name;
     title.addEventListener("change", () => {
-        getListById(listId).name = title.value;
+        list.name = title.value;
     });
     title.addEventListener("keyup", (e) => {
         if (e.key == "Enter") {
@@ -43,7 +45,7 @@ function createListHeader(listId) {
     delListButton.className = "list-delButton";
     delListButton.textContent = "X";
     delListButton.addEventListener("click", () => {
-        document.body.appendChild(callKillConfirmation(listId));
+        document.body.appendChild(callKillConfirmation(list));
     });
 
     listHeader.appendChild(title);
@@ -52,7 +54,41 @@ function createListHeader(listId) {
     return listHeader;
 }
 
-function callKillConfirmation(listId) {
+function createListFooter(list) {
+    const listFooter = document.createElement("div");
+    listFooter.className = "list-footer";
+
+    const totalTasks = document.createElement("div");
+    totalTasks.textContent = "Total tasks: ";
+
+    const totalDueTasks = document.createElement("div");
+    totalDueTasks.textContent = "Past due: ";
+
+    const dataTotal = document.createElement("span");
+    dataTotal.className = "list-dataTotal";
+    dataTotal.id = list.id + "-total";
+    dataTotal.textContent = " " + list.totalTasks();
+
+    const dataDue = document.createElement("span");
+    dataDue.className = "list-dataDue";
+    dataDue.id = list.id + "-totalDue";
+    dataDue.textContent = " " + list.totalDueTasks();;
+
+    listFooter.appendChild(totalTasks);
+    totalTasks.appendChild(dataTotal);
+    listFooter.appendChild(totalDueTasks);
+    totalDueTasks.appendChild(dataDue);
+
+    return listFooter
+}
+
+function createList(){
+    const list = new List("list-" + generateListId());
+    addList(list);
+    return list;
+}
+
+function callKillConfirmation(list) {
     const confirmationModal = document.createElement("div");
     confirmationModal.className = "confirmation-modal";
 
@@ -62,7 +98,7 @@ function callKillConfirmation(listId) {
 
     const confirmationListName = document.createElement("div");
     confirmationListName.className = "confirmation-listName";
-    confirmationListName.textContent = getListById(listId).name;
+    confirmationListName.textContent = list.name;
 
     const confirmationFooter = document.createElement("div");
     confirmationFooter.className = "confirmation-footer";
@@ -71,7 +107,7 @@ function callKillConfirmation(listId) {
     confirmationKillButton.className = "confirmation-killButton";
     confirmationKillButton.textContent = "DELETE";
     confirmationKillButton.addEventListener("click", () => {
-        killList(listId);
+        killList(list);
         document.body.removeChild(confirmationModal);
     });
 
@@ -91,50 +127,13 @@ function callKillConfirmation(listId) {
     return confirmationModal;
 }
 
-
-function killList(listId) {
-    removeList(getListById(listId));
-    const listDOMToBeRemoved = document.getElementById(listId).parentElement;
+function killList(list) {
+    removeList(list);
+    const listDOMToBeRemoved = document.getElementById(list.id).parentElement;
     document.getElementById("mainContainer").removeChild(listDOMToBeRemoved);
 };
 
-function callTaskForm(listId) {
-    const taskForm = createTaskForm(listId);
+function callTaskForm(list) {
+    const taskForm = createTaskForm(list);
     document.body.appendChild(taskForm);
-}
-
-function createListFooter(listId) {
-    const listFooter = document.createElement("div");
-    listFooter.className = "list-footer";
-
-    const totalTasks = document.createElement("div");
-    totalTasks.textContent = "Total tasks: ";
-
-    const totalDueTasks = document.createElement("div");
-    totalDueTasks.textContent = "Past due: ";
-
-    const dataTotal = document.createElement("span");
-    dataTotal.className = "list-dataTotal";
-    dataTotal.id = listId + "-total";
-    dataTotal.textContent = " " + updateTotalTasks(listId);
-
-    const dataDue = document.createElement("span");
-    dataDue.className = "list-dataDue";
-    dataDue.id = listId + "-totalDue";
-    dataDue.textContent = " " + updateTotalDueTasks(listId);
-
-    listFooter.appendChild(totalTasks);
-    totalTasks.appendChild(dataTotal);
-    listFooter.appendChild(totalDueTasks);
-    totalDueTasks.appendChild(dataDue);
-
-    return listFooter
-}
-
-export function updateTotalTasks(listId) {
-    return getListById(listId).totalTasks();
-}
-
-export function updateTotalDueTasks(listId) {
-    return getListById(listId).totalDueTasks();
 }

@@ -1,7 +1,5 @@
 import './header.css'
 import { createDOMList } from '../List/listDOM.js';
-import List from '../List/list';
-import { addList, generateListId } from '../Main/main';
 
 export function createHeader() {
     const header = document.createElement('header');
@@ -28,7 +26,5 @@ function createListBtn() {
 }
 
 function createList() {
-    const list = new List("list-" + generateListId());
-    addList(list);
-    document.getElementById("mainContainer").appendChild(createDOMList(list.id));
+    document.getElementById("mainContainer").appendChild(createDOMList());
 }

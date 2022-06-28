@@ -5,14 +5,14 @@ import { diffDate, newDate, formatDate } from '../Date/date.js';
 import { updateTotalTasks, updateTotalDueTasks } from '../List/listDOM';
 export { createDOMTask, createTaskForm };
 
-function createTaskForm(parentList, task = false) {
-    const modal = document.createElement("div");
-    modal.className = "task-modal";
+function createTaskForm(listId, task = false) {
+    const taskFormModal = document.createElement("div");
+    taskFormModal.className = "taskForm-modal";
 
     const taskForm = document.createElement("form");
-    taskForm.className = "task-form";
+    taskForm.className = "taskForm-form";
     const header = document.createElement("div");
-    header.className = "form-header";
+    header.className = "taskForm-header";
     if (arguments.length == 1) {
         header.textContent = "Create new task";
     } else {
@@ -23,8 +23,7 @@ function createTaskForm(parentList, task = false) {
     labelTitle.htmlFor = "formTitle";
     labelTitle.textContent = "Task Title:";
     const inputTitle = document.createElement("input");
-    inputTitle.className = "form-input";
-    inputTitle.id = "formTitle";
+    inputTitle.className = "taskForm-input";
     inputTitle.name = "title";
     inputTitle.placeholder = "Ex: Buy Grocery";
     if (arguments.length == 1) {
@@ -33,13 +32,11 @@ function createTaskForm(parentList, task = false) {
         inputTitle.value = task.title;
     }
 
-
     const labelPriority = document.createElement("label");
     labelPriority.htmlFor = "formPriority";
     labelPriority.textContent = "Task Priority: (Higher shown first)";
     const inputPriority = document.createElement("select");
-    inputPriority.className = "form-input";
-    inputPriority.id = "formPriority";
+    inputPriority.className = "taskForm-input";
     inputPriority.name = "priority";
     for (let index = 1; index <= 10; index++) {
         const element = document.createElement("option");
@@ -53,13 +50,11 @@ function createTaskForm(parentList, task = false) {
         inputPriority.value = task.priority;
     }
 
-
     const labelDueDate = document.createElement("label");
     labelDueDate.htmlFor = "formDueDate";
     labelDueDate.textContent = "Due Date:";
     const inputDueDate = document.createElement("input");
-    inputDueDate.className = "form-input";
-    inputDueDate.id = "formDueDate";
+    inputDueDate.className = "taskForm-input";
     inputDueDate.type = "date";
     inputDueDate.name = "dueDate";
     if (arguments.length == 1) {
@@ -72,40 +67,15 @@ function createTaskForm(parentList, task = false) {
     labelTitle.htmlFor = "formDescription";
     labelDescription.textContent = "Task Description:";
     const inputDescription = document.createElement("textarea");
-    inputDescription.id = "formDescription";
     inputDescription.placeholder = "Ex: Buy 2 tomatoes";
     inputDescription.name = "description";
     if (arguments.length == 1) {
         inputDescription.value = "";
     } else {
         inputDescription.value = task.description;
-    }
-    
+    }    
 
-    const footer = document.createElement("div");
-    footer.className = "form-footer";
-    const createButton = document.createElement("button");
-    createButton.className = "task-createButton";
-    createButton.textContent = "Create";
-    createButton.type = "submit";
-    createButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        const tasks = createTask(taskForm);
-        addTaskDOMToList(parentList, tasks);
-        document.body.removeChild(modal);
-        e.stopPropagation();
-    });
-
-    const cancelButton = document.createElement("button");
-    cancelButton.className = "task-cancelButton";
-    cancelButton.textContent = "Cancel";
-    cancelButton.type = "button";
-    cancelButton.addEventListener("click", (e) => {
-        document.body.removeChild(modal);
-        e.stopPropagation();
-    });
-
-    modal.appendChild(taskForm);
+    taskFormModal.appendChild(taskForm);
     taskForm.appendChild(header);
     taskForm.appendChild(labelTitle);
     taskForm.appendChild(inputTitle);
@@ -114,20 +84,39 @@ function createTaskForm(parentList, task = false) {
     taskForm.appendChild(labelDueDate);
     taskForm.appendChild(inputDueDate);
     taskForm.appendChild(labelDescription);
-    taskForm.appendChild(inputDescription);
-    footer.appendChild(createButton);
-    footer.appendChild(cancelButton);
-    taskForm.appendChild(footer);
+    taskForm.appendChild(inputDescription);    
+    taskForm.appendChild(createTaskFormFooter(listId));
 
-    /* exit modal clicking anywhere on the screen.
-        modal.addEventListener("click", (e) => {
-            if (e.target == modal) {
-                document.body.removeChild(modal);
-                e.stopPropagation();
-            }
-        });*/
+    return taskFormModal;
+}
 
-    return modal;
+function createTaskFormFooter(listId){
+    const taskFormFooter = document.createElement("div");
+    taskFormFooter.className = "taskForm-footer";
+
+    const createButton = document.createElement("button");
+    createButton.className = "taskForm-createButton";
+    createButton.textContent = "Create";
+    createButton.type = "submit";
+    createButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const tasks = createTask(taskForm);
+        addTaskDOMToList(parentList, tasks);
+        document.body.removeChild(taskFormModal);
+    });
+
+    const cancelButton = document.createElement("button");
+    cancelButton.className = "taskForm-cancelButton";
+    cancelButton.textContent = "Cancel";
+    cancelButton.type = "button";
+    cancelButton.addEventListener("click", (e) => {
+        document.body.removeChild(taskFormModal);
+    });
+
+    taskFormFooter.appendChild(createButton);
+    taskFormFooter.appendChild(cancelButton);
+
+    return taskFormFooter;
 }
 
 function createTask(taskForm) {
