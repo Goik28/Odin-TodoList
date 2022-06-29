@@ -30,6 +30,7 @@ export default class List {
 
     addTask(Task) {
         this.taskContainer.push(Task);
+        this.orderTasks();
     }
 
     getTask(index) {
@@ -42,7 +43,7 @@ export default class List {
 
     orderTasks() {
         this.taskContainer.sort((a, b) => {
-            return b - a;
+            return b.priority - a.priority;
         });
     }
 

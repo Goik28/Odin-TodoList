@@ -1,6 +1,6 @@
 import './list.css';
 import { removeList } from '../Main/main';
-import { createTaskForm } from '../Task/taskDOM';
+import { callTaskForm } from '../Task/taskDOM';
 import List from './list';
 
 export function createDOMList() {
@@ -15,7 +15,7 @@ export function createDOMList() {
     addTaskButton.className = "list-addButton";
     addTaskButton.textContent = "+";
     addTaskButton.addEventListener("click", () => {
-        callTaskForm(list);
+        addTask(list);
     });
 
     listDOM.appendChild(createListHeader(list));
@@ -133,7 +133,7 @@ function killList(list) {
     document.getElementById("mainContainer").removeChild(listDOMToBeRemoved);
 };
 
-function callTaskForm(list) {
-    const taskForm = createTaskForm(list);
+function addTask(list) {
+    const taskForm = callTaskForm(list);
     document.body.appendChild(taskForm);
 }
