@@ -1,24 +1,18 @@
 import * as date from '../Date/date.js';
 
 export default class Task {
-    id;
     title;
     description;
     dueDate;
     priority;
     pastDue;
 
-    constructor(id, title, priority, dueDate, description) {
-        this.id = id;
+    constructor(title, priority, dueDate, description) {
         this.title = title;
         this.description = description;
         this.dueDate = date.newDate(dueDate);
         this.priority = priority;
         this.isPastDue();
-    }
-
-    get id() {
-        return this.id;
     }
 
     get title() {
@@ -41,10 +35,6 @@ export default class Task {
         return this.pastDue;
     }
 
-    set id(id) {
-        this.id = id;
-    }
-
     set title(title) {
         this.title = title;
     }
@@ -53,10 +43,9 @@ export default class Task {
         this.description = description;
     }
 
-    set dueDate(dueDate) {
+    setDueDate(dueDate) {
         this.dueDate = date.newDate(dueDate);
         this.isPastDue();
-        this.setDaysLeft();
     }
 
     set priority(priority) {

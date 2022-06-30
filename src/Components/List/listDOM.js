@@ -1,5 +1,5 @@
 import './list.css';
-import { removeList } from '../Main/main';
+import { addList, removeList, generateListId } from '../Main/main';
 import { callTaskForm } from '../Task/taskDOM';
 import List from './list';
 
@@ -72,7 +72,7 @@ function createListFooter(list) {
     const dataDue = document.createElement("span");
     dataDue.className = "list-dataDue";
     dataDue.id = list.id + "-totalDue";
-    dataDue.textContent = " " + list.totalDueTasks();;
+    dataDue.textContent = " " + list.totalDueTasks();
 
     listFooter.appendChild(totalTasks);
     totalTasks.appendChild(dataTotal);

@@ -30,15 +30,14 @@ export default class List {
 
     addTask(Task) {
         this.taskContainer.push(Task);
-        this.orderTasks();
     }
 
     getTask(index) {
         return this.taskContainer[index];
     }
 
-    removeTask(Task) {
-        this.taskContainer.splice(Task - 1, 1);
+    removeTask(task) {
+        this.taskContainer.splice(this.taskContainer.indexOf(task), 1);
     }
 
     orderTasks() {

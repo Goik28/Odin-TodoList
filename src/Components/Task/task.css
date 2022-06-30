@@ -45,7 +45,7 @@
 
 .taskForm-form{
     width: 300px;
-    height: 400px;
+    
     display: flex;
     flex-direction: column;
     background-color: #D6D3D1;
@@ -76,10 +76,12 @@ label{
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 10px;
 }
 
 textarea{
-    flex: 1 1 auto;
+    height: 85px;
     resize: none;
 }
 
@@ -102,5 +104,16 @@ textarea{
     font-weight: 700;
     font-size: 1.3rem;
     border: solid   rgb(37, 99, 235) 1px;
+    border-radius: 5px;
+}
+
+.taskForm-deleteButton{
+    width: 300px;
+    height: 45px;
+    background-color: transparent;
+    color: rgb(255, 0, 0, 0.7);;
+    font-weight: 700;
+    font-size: 1.3rem;
+    border: solid   rgb(255, 0, 0, 0.7) 1px;
     border-radius: 5px;
 }

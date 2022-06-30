@@ -1,8 +1,6 @@
 import './task.css';
-import { getListById } from '../Main/main';
 import Task from './task';
-import { diffDate, newDate, formatDate } from '../Date/date.js';
-import { updateTotalTasks, updateTotalDueTasks } from '../List/listDOM';
+import { diffDate, formatDate } from '../Date/date.js';
 
 export function callTaskForm(list, task = false) {
     const taskFormModal = document.createElement("div");
@@ -98,6 +96,18 @@ function createTaskFormFooter(taskForm, list, task) {
     const taskFormFooter = document.createElement("div");
     taskFormFooter.className = "taskForm-footer";
 
+    if (task != false) {
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "taskForm-deleteButton";
+        deleteButton.textContent = "Delete task";
+        deleteButton.type = "button";
+        deleteButton.addEventListener("click", (e) => {
+            deleteTask(list, task);
+            document.body.removeChild(taskForm.parentElement);
+        });
+        taskFormFooter.appendChild(deleteButton);
+    }
+
     const createButton = document.createElement("button");
     createButton.className = "taskForm-createButton";
     if (task == false) {
@@ -109,41 +119,61 @@ function createTaskFormFooter(taskForm, list, task) {
     createButton.addEventListener("click", (e) => {
         e.preventDefault();
         if (task == false) {
-
-            const tasks = createTask(taskForm);
-            addTaskDOMToList(parentList, tasks);
-
+            createTask(taskForm, list);
         } else {
-            //task update
+            updateTask(taskForm, list, task);
         }
-
-        document.body.removeChild(taskFormModal);
+        document.body.removeChild(taskForm.parentElement);
     });
-
-    if (task != false) {
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "taskForm-deleteButton";
-        deleteButton.textContent = "Delete";
-        deleteButton.type = "button";
-        deleteButton.addEventListener("click", (e) => {
-            //eclude task
-            document.body.removeChild(taskFormModal);
-
-        });
-    }
 
     const cancelButton = document.createElement("button");
     cancelButton.className = "taskForm-cancelButton";
     cancelButton.textContent = "Cancel";
     cancelButton.type = "button";
     cancelButton.addEventListener("click", (e) => {
-        document.body.removeChild(taskFormFooter.parentElement.parentElement);
+        document.body.removeChild(taskForm.parentElement);
     });
 
     taskFormFooter.appendChild(createButton);
     taskFormFooter.appendChild(cancelButton);
 
     return taskFormFooter;
+}
+
+function createDOMTask(list, task) {
+    const taskDOM = document.createElement("div");
+    taskDOM.className = "task-body";
+    taskDOM.addEventListener("click", (e) => {
+        document.body.appendChild(callTaskForm(list, task));
+    });
+
+    const taskTitle = document.createElement("div");
+    taskTitle.className = "task-title";
+    taskTitle.textContent = task.title;
+    const taskDate = document.createElement("div");
+    taskDate.className = "task-date";
+    taskDate.textContent = formatDate(task.dueDate);
+    const taskDescription = document.createElement("div");
+    taskDescription.className = "task-description";
+    taskDescription.textContent = task.description;
+    const taskDaysLeft = document.createElement("div");
+    taskDaysLeft.className = "task-daysLeft";
+    if (diffDate(task.dueDate) == 0 || diffDate(task.dueDate) == 1) {
+        taskDaysLeft.textContent = diffDate(task.dueDate) + " day left";
+    } else if (diffDate(task.dueDate) > 1) {
+        taskDaysLeft.textContent = diffDate(task.dueDate) + " days left";
+    } else if (diffDate(task.dueDate) == -1) {
+        taskDaysLeft.textContent = diffDate(task.dueDate) * (-1) + " day ago";
+    } else if (diffDate(task.dueDate) < -1) {
+        taskDaysLeft.textContent = diffDate(task.dueDate) * (-1) + " days ago";
+    }
+
+    taskDOM.appendChild(taskTitle);
+    taskDOM.appendChild(taskDate);
+    taskDOM.appendChild(taskDescription);
+    taskDOM.appendChild(taskDaysLeft);
+
+    return taskDOM;
 }
 
 function createTask(taskForm, list) {
@@ -154,68 +184,39 @@ function createTask(taskForm, list) {
     }
     const task = new Task(...data);
     list.addTask(task);
+    list.orderTasks();
+    redrawListDOM(list);
+}
+
+function updateTask(taskForm, list, task) {
+    const formData = new FormData(taskForm);
+    const data = [];
+    for (const [key, value] of formData) {
+        data.push(value);
+    }
+    task.title = data[0];
+    task.priority = data[1];
+    task.setDueDate(data[2]);
+    task.description = data[3];
+    list.orderTasks();
+    redrawListDOM(list);
+}
+
+function deleteTask(list, task) {
+    list.removeTask(task);
+    list.orderTasks();
+    redrawListDOM(list);
+}
+
+function redrawListDOM(list) {
     const addButton = document.getElementById(list.id).lastElementChild;
+    document.getElementById(list.id).replaceChildren();
     for (let index = 0; index < list.taskContainer.length; index++) {
         const element = list.taskContainer[index];
         const taskDOM = createDOMTask(list, element);
-        document.getElementById(list.id).insertBefore(taskDOM, addButton);
+        document.getElementById(list.id).appendChild(taskDOM);
     }
-}
-
-function createDOMTask(title, dueDate, description) {
-    const taskDOM = document.createElement("div");
-    taskDOM.className = "task-body";
-
-    const taskTitle = document.createElement("div");
-    taskTitle.className = "task-title";
-    taskTitle.textContent = title;
-    const taskDate = document.createElement("div");
-    taskDate.className = "task-date";
-    taskDate.textContent = formatDate(dueDate);
-    const taskDescription = document.createElement("div");
-    taskDescription.className = "task-description";
-    taskDescription.textContent = description;
-    const taskDaysLeft = document.createElement("div");
-    taskDaysLeft.className = "task-daysLeft";
-    if (diffDate(dueDate) == 0 || diffDate(dueDate) == 1) {
-        taskDaysLeft.textContent = diffDate(dueDate) + " day left";
-    } else if (diffDate(dueDate) > 1) {
-        taskDaysLeft.textContent = diffDate(dueDate) + " days left";
-    } else if (diffDate(dueDate) == -1) {
-        taskDaysLeft.textContent = diffDate(dueDate) * (-1) + " day ago";
-    } else if (diffDate(dueDate) < -1) {
-        taskDaysLeft.textContent = diffDate(dueDate) * (-1) + " days ago";
-    }
-
-    taskDOM.appendChild(taskTitle);
-    taskDOM.appendChild(taskDate);
-    taskDOM.appendChild(taskDescription);
-    taskDOM.appendChild(taskDaysLeft);
-
-    taskDOM.addEventListener("click", (e) => {
-        const parentListDOM = taskDOM.parentElement.parentElement;
-        const main = parentListDOM.parentElement.children;
-        const arrayMain = Array.from(main);
-        const list = getList(arrayMain.indexOf(parentListDOM));
-        const arrayList = Array.from(taskDOM.parentElement.children)
-
-        const task = list.taskcontainer.indexOf()
-    })
-
-    return taskDOM;
-}
-
-function addTaskDOMToList(parentList, tasks) {
-    const array = Array.from(parentList.parentNode.children);
-    getList(array.indexOf(parentList)).addTask(tasks[0]);
-    parentList.children[1].insertBefore(tasks[1], parentList.children[1].firstChild);
-
-    const main = Array.from(parentList.parentNode.children);
-    const list = getList(main.indexOf(parentList));
-    updateTotalTasks(parentList, list.totalTasks());
-    updateTotalDueTasks(parentList, list.totalDueTasks());
-}
-
-function updateTask(parentList, task) {
-
+    document.getElementById(list.id).appendChild(addButton);
+    document.getElementById(list.id + "-total").textContent = list.totalTasks();
+    document.getElementById(list.id + "-totalDue").textContent = list.totalDueTasks();
 }
