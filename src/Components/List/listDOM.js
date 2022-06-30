@@ -2,9 +2,12 @@ import './list.css';
 import { addList, removeList, generateListId } from '../Main/main';
 import { callTaskForm } from '../Task/taskDOM';
 import List from './list';
+import { saveToStorage } from '../Storage/manager';
 
-export function createDOMList() {
-    const list = createList();
+export function createDOMList(list) {
+    if (list == false) {
+        list = createList();
+    }
     const listDOM = document.createElement("div");
     listDOM.className = "list-body";
 
@@ -34,6 +37,7 @@ function createListHeader(list) {
     title.value = list.name;
     title.addEventListener("change", () => {
         list.name = title.value;
+        saveToStorage();
     });
     title.addEventListener("keyup", (e) => {
         if (e.key == "Enter") {

@@ -1,3 +1,5 @@
+import { saveToStorage } from "../Storage/manager";
+
 export default class List {
     id;
     name;
@@ -44,6 +46,7 @@ export default class List {
         this.taskContainer.sort((a, b) => {
             return b.priority - a.priority;
         });
+        saveToStorage();
     }
 
     totalTasks() {

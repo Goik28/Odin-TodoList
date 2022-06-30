@@ -25,6 +25,6 @@ function createListBtn() {
     return newListBtn;
 }
 
-function createList() {
-    document.getElementById("mainContainer").appendChild(createDOMList());
+export function createList(list = false) {
+    document.getElementById("mainContainer").appendChild(createDOMList(list));
 }

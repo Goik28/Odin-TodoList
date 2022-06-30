@@ -1,4 +1,4 @@
-
+import { getListContainer, updateListId } from "../Main/main";
 
 function testStorageAvailability(type) {
     var storage;
@@ -26,33 +26,39 @@ function testStorageAvailability(type) {
 }
 
 
-function storageAvaible(object) {
-    if (storageAvailable('localStorage')) {
+export function storageAvailable() {
+    if (testStorageAvailability('localStorage')) {
         // Yippee! We can use localStorage awesomeness
-
-
+        localStorage.setItem("main",transformAllToJson());
     }
     else {
         // Too bad, no localStorage for us
-
-
+        console.log("Storage disabled, can't save lists data.")
     }
 }
 
-function saveToStorage() {
-    localStorage.setItem('bgcolor', document.getElementById('bgcolor').value);
-    localStorage.setItem('font', document.getElementById('font').value);
-    localStorage.setItem('image', document.getElementById('image').value);
-
+export function saveToStorage() {
+    storageAvailable();
 }
 
-function getFromStorage() {
-    var currentColor = localStorage.getItem('bgcolor');
-    var currentFont = localStorage.getItem('font');
-    var currentImage = localStorage.getItem('image');
-
+export function getFromStorage() {
+    if (localStorage.getItem("main")) {
+        return recoverAllFromJson(localStorage.getItem("main"));        
+    } else {
+        return false;
+    }    
 }
 
 function deleteFromStorage(object) {
     localStorage.removeItem(object);
+}
+
+function transformAllToJson() {
+    const data = JSON.stringify(getListContainer());
+    return data;
+}
+
+function recoverAllFromJson(json) {
+    const data = JSON.parse(json);
+    return data;
 }

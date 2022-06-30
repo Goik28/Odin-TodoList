@@ -1,6 +1,7 @@
 import './task.css';
 import Task from './task';
 import { diffDate, formatDate } from '../Date/date.js';
+import { saveToStorage } from '../Storage/manager';
 
 export function callTaskForm(list, task = false) {
     const taskFormModal = document.createElement("div");
@@ -185,7 +186,7 @@ function createTask(taskForm, list) {
     const task = new Task(...data);
     list.addTask(task);
     list.orderTasks();
-    redrawListDOM(list);
+    redrawTaskListDOM(list);
 }
 
 function updateTask(taskForm, list, task) {
@@ -199,16 +200,16 @@ function updateTask(taskForm, list, task) {
     task.setDueDate(data[2]);
     task.description = data[3];
     list.orderTasks();
-    redrawListDOM(list);
+    redrawTaskListDOM(list);
 }
 
 function deleteTask(list, task) {
     list.removeTask(task);
     list.orderTasks();
-    redrawListDOM(list);
+    redrawTaskListDOM(list);
 }
 
-function redrawListDOM(list) {
+export function redrawTaskListDOM(list) {
     const addButton = document.getElementById(list.id).lastElementChild;
     document.getElementById(list.id).replaceChildren();
     for (let index = 0; index < list.taskContainer.length; index++) {
