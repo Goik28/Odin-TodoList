@@ -1,36 +1,22 @@
 .task-body{
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    grid-template-rows: 20px 20px;
     background-color: rgba(245, 245, 244, 0.5);
+    column-gap: 10px;
     row-gap: 5px;
     margin-bottom: 5px;
     padding: 5px 0px;
-}
-
-.task-title{
-    width: 190px;
-    height: 20px;
-}
-
-.task-date{
-    width: 100px;
-    margin-left: 10px;
+    align-self: stretch;
 }
 
 .task-description{
-    width: 190px;
     overflow: hidden;
     height: 20px;
     white-space: nowrap;
     text-overflow: ellipsis;
     color: rgba(0, 0, 0, 0.5);
 }
-
-.task-daysLeft{
-    width: 100px;
-    margin-left: 10px;
-}
-
 
 .taskForm-modal{
     display: block;
@@ -44,8 +30,7 @@
 }
 
 .taskForm-form{
-    width: 300px;
-    
+    width: 300px;    
     display: flex;
     flex-direction: column;
     background-color: #D6D3D1;

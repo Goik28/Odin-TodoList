@@ -3,7 +3,7 @@ main {
     overflow: scroll;
     width: 100vw;
     display: grid;
-    grid-template-columns: repeat(auto-fit, 320px);
+    grid-template-columns: repeat(auto-fit, 340px);
     justify-content: center;
     grid-auto-rows: 425px;
     column-gap: 15px;

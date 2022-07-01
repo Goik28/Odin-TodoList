@@ -1,8 +1,7 @@
 .list-body {
-    width: 300px;
+    width: 320px;
     height: 400px;
     background-color: #E7E5E4;
-    /*tailwind color yellow*/
     padding: 0px 10px 10px 10px;
     display: flex;
     flex-direction: column;
@@ -44,7 +43,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: scroll;
+    overflow: auto;
+    align-self: stretch;
 }
 
 .list-addButton {
